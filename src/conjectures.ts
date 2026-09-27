@@ -158,7 +158,7 @@ export const conjectures: Conjecture[] = [
       if (!isPrime(p)) return survive(`${p} isn't prime, so the claim says nothing about it.`);
       return factorVerdict(mersenne(p), d, `2^${p} − 1`);
     },
-    hints: ["The next prime after 7 still works. The one after that doesn't.", "Try p = 11. Any factor of 2^p − 1 has the form 2kp + 1.", "2047 = 23 × 89."],
+    hints: ["Try the very next prime after 7.", "Try p = 11. Any factor of 2^p − 1 has the form 2kp + 1.", "2047 = 23 × 89."],
     reveal:
       "The converse is true: if 2ⁿ − 1 is prime, n must be prime. Hudalricus Regius found 2¹¹ − 1 = 2047 = 23 × 89 in 1536. Mersenne primes are still the source of nearly every record-sized prime.",
     counterexample: { p: "11", d: "23" },
