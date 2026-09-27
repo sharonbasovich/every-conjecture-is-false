@@ -1,6 +1,6 @@
 # Every Conjecture Here Is False
 
-> Every claim in this app is false. Your job is to prove it.
+> Every claim here is false. Your job is to break it.
 
 **Live demo:** https://sharonbasovich.github.io/every-conjecture-is-false/
 
@@ -39,17 +39,27 @@ Progress is saved in your browser. **Reset progress** in the footer clears it.
 
 ## How it works
 
-- `src/math.ts` contains BigInt number theory: Miller–Rabin (deterministic below 3.3 × 10²⁴), modular exponentiation, gcd, a Legendre three-square check, and exact cyclotomic polynomials built from the Möbius product formula.
+- `src/math.ts` contains BigInt number theory: Miller–Rabin (deterministic below 3.3 × 10²⁴), modular exponentiation, gcd, an exhaustive three-square search (unit-tested against Legendre's theorem), and exact cyclotomic polynomials built from the Möbius product formula.
 - `src/conjectures.ts` holds the catalogue. Each claim has its own `check()` verifier that returns a human-readable verdict, plus input bounds so the browser never freezes.
 - `src/main.ts` is a dependency-free TypeScript UI with progress saved in `localStorage`.
 - Nothing is looked up or hard-coded as an answer key. Every submission is verified from first principles.
+
+## Why the 52-digit boss is the *smallest* counterexample
+
+`scripts/verify_boss.py` proves it rather than asserting it:
+
+1. The resultant R of x¹⁷ + 9 and (x + 1)¹⁷ + 9 is an integer combination of the two polynomials, so every common divisor of their values divides R.
+2. R = 8936582237915716659950962253358945635793453256935559, which the script proves prime with a recursive Pratt certificate.
+3. Over GF(R) the two polynomials have a degree-1 gcd, so they share exactly one root r mod R.
+4. So the counterexamples are exactly n ≡ r (mod R), and the smallest positive one is r = 8424432925592889329288197322308900672459420460792433 (≈ 8.4 × 10⁵¹). Every n ≤ 10⁵⁰ gives gcd 1.
 
 ## Develop
 
 ```bash
 npm ci
 npm run dev        # http://localhost:5173
-npm test           # 43 unit tests (vitest)
+npm test           # unit tests (vitest)
+python3 scripts/verify_boss.py  # proof for the 52-digit boss (needs sympy)
 npm run typecheck
 npm run build      # static site in dist/
 ```

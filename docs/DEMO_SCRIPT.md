@@ -1,6 +1,6 @@
 # Demo video script (target 90 seconds)
 
-Record at 1440×900 on the live demo in a fresh browser profile (or click **Reset progress** first). `docs/video/walkthrough.mp4` is a silent 30-second capture of this same flow that you can use as B-roll or as a fallback.
+Record at 1440×900 on the live demo in a fresh browser profile (or click **Reset progress** first). `docs/video/walkthrough.mp4` is a silent short capture of this same flow that you can use as B-roll or as a fallback.
 
 | Time | On screen | Voice-over |
 |------|-----------|------------|
