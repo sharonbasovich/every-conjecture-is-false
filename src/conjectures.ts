@@ -296,7 +296,7 @@ export const conjectures: Conjecture[] = [
     title: "The 52-digit liar",
     claim: "For every positive integer <em>n</em>, gcd(<em>n</em>¹⁷ + 9, (<em>n</em> + 1)¹⁷ + 9) = 1.",
     evidence: ["n = 1 → gcd(10, 131081) = 1 ✓", "n = 2 → gcd = 1 ✓", "…true for every n up to 10⁵⁰."],
-    fields: [{ key: "n", label: "n (paste as many digits as you like)", placeholder: "a very large n" }],
+    fields: [{ key: "n", label: "n (up to 400 digits)", placeholder: "a very large n" }],
     check: ({ n }) => {
       if (n < 1n) return survive("Pick a positive integer.");
       const g = boss(n);

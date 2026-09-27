@@ -170,7 +170,7 @@ function renderCard(card: HTMLElement): void {
       raw[f.key] = input.value.trim();
       const parsed = parseInteger(input.value);
       if (parsed === null) {
-        showVerdict(verdictEl, { broken: false, message: `“${f.label}” needs to be a whole number.` });
+        showVerdict(verdictEl, { broken: false, message: `“${f.label}” needs to be a whole number of at most 400 digits.` });
         input.focus();
         return;
       }
