@@ -22,9 +22,9 @@ That's the warm-up. The boss claims gcd(n¹⁷ + 9, (n+1)¹⁷ + 9) = 1 for ever
 ## Judges: the 60-second route
 
 1. Open https://sharonbasovich.github.io/every-conjecture-is-false/ (desktop or phone, no login).
-2. Click **03 Euler's prime generator**. Type `10`, press **Break it** → "151 is prime. The claim survives."
+2. The app opens on **03 Euler's prime generator** (or press the yellow **Start here** button). Type `10`, press **Break it** → "151 is prime. The claim survives."
 3. Type `40` → the claim is stamped **FALSE** (1681 = 41 × 41) and a note explains why it fooled Euler's readers.
-4. Click **12 The 52-digit liar**, press **Show hint** three times, paste the number from hint 3, press **Break it** → the two numbers share a 52-digit prime factor.
+4. Press **Next: the 52-digit liar** at the top (or click **12**), press **Show hint** three times, paste the number from hint 3, press **Break it** → the two numbers share a 52-digit prime factor.
 5. Optional: any other claim. Wrong answers tell you exactly why the claim survives. **Reset progress** is in the footer.
 
 ## What it does

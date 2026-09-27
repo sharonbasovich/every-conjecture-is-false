@@ -23,7 +23,10 @@ const progress = loadProgress();
 const save = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
 
 const app = document.querySelector<HTMLDivElement>("#app")!;
-let current: Conjecture = conjectures.find((c) => !progress.broken[c.id]) ?? conjectures[0];
+const byId = (id: string): Conjecture => conjectures.find((c) => c.id === id)!;
+let current: Conjecture =
+  Object.keys(progress.broken).length === 0 ? byId("euler-41") : conjectures.find((c) => !progress.broken[c.id]) ?? conjectures[0];
+const drafts: Record<string, Record<string, string>> = {};
 
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, attrs: Record<string, string> = {}, html = ""): HTMLElementTagNameMap[K] {
   const node = document.createElement(tag);
@@ -42,7 +45,9 @@ function render(): void {
     <header class="hero">
       <p class="kicker">A puzzle about proof · ${conjectures.length} claims · 0 true</p>
       <h1>Every conjecture here is <span class="strike">true</span> <span class="false">false.</span></h1>
+      <p class="tagline">Every claim here is false. Your job is to break it.</p>
       <p class="lede">Each claim below holds for the first few cases, sometimes the first 40, sometimes the first 10<sup>50</sup>. Your job is to find the counterexample. The app checks it exactly, using big-integer arithmetic.</p>
+      ${startCta()}
       <div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="${conjectures.length}" aria-valuenow="${brokenCount}" aria-label="conjectures broken">
         <div class="meter-fill" style="width:${(100 * brokenCount) / conjectures.length}%"></div>
         <span class="meter-label" data-testid="score">${brokenCount} / ${conjectures.length} broken</span>
@@ -84,13 +89,23 @@ function render(): void {
   });
 
   renderCard(app.querySelector<HTMLElement>(".card")!);
+  const active = deck.querySelector<HTMLElement>(".active");
+  if (active && deck.scrollWidth > deck.clientWidth) deck.scrollLeft = active.offsetLeft - deck.offsetLeft - 8;
+
+  app.querySelector<HTMLButtonElement>("#start")?.addEventListener("click", (ev) => {
+    current = byId((ev.currentTarget as HTMLButtonElement).dataset.id!);
+    render();
+    const input = app.querySelector<HTMLInputElement>(".card input");
+    input?.scrollIntoView({ block: "center", behavior: "smooth" });
+    input?.focus({ preventScroll: true });
+  });
 
   app.querySelector("#reset")!.addEventListener("click", () => {
     if (!confirm("Forget every counterexample you've found?")) return;
     progress.broken = {};
     progress.hints = {};
     save();
-    current = conjectures[0];
+    current = byId("euler-41");
     render();
   });
   app.querySelector("#share")!.addEventListener("click", async (ev) => {
@@ -123,7 +138,7 @@ function renderCard(card: HTMLElement): void {
       <div class="fields">
         ${c.fields
           .map(
-            (f) => `<label><span>${f.label}</span><input name="${f.key}" inputmode="numeric" autocomplete="off" placeholder="${f.placeholder}" value="${escapeHtml(solved ? JSON.parse(solved)[f.key] ?? "" : "")}" /></label>`,
+            (f) => `<label><span>${f.label}</span><input name="${f.key}" inputmode="numeric" autocomplete="off" placeholder="${f.placeholder}" value="${escapeHtml(solved ? JSON.parse(solved)[f.key] ?? "" : drafts[c.id]?.[f.key] ?? "")}" /></label>`,
           )
           .join("")}
       </div>
@@ -142,6 +157,10 @@ function renderCard(card: HTMLElement): void {
 
   const form = card.querySelector<HTMLFormElement>("form")!;
   const verdictEl = card.querySelector<HTMLParagraphElement>(".verdict")!;
+  form.addEventListener("input", (ev) => {
+    const input = ev.target as HTMLInputElement;
+    (drafts[c.id] ??= {})[input.name] = input.value;
+  });
   form.addEventListener("submit", (ev) => {
     ev.preventDefault();
     const raw: Record<string, string> = {};
@@ -180,6 +199,15 @@ function renderCard(card: HTMLElement): void {
     current = conjectures.slice(idx + 1).find((x) => !progress.broken[x.id]) ?? conjectures.find((x) => !progress.broken[x.id]) ?? c;
     render();
   });
+}
+
+function startCta(): string {
+  const target = !progress.broken["euler-41"]
+    ? { id: "euler-41", label: "Start here: Euler's prime generator. Try 10, then 40" }
+    : !progress.broken["gcd-17"]
+      ? { id: "gcd-17", label: "Next: the 52-digit liar" }
+      : null;
+  return target ? `<button type="button" class="primary start" id="start" data-id="${target.id}">${target.label} →</button>` : "";
 }
 
 function nextButton(): string {
