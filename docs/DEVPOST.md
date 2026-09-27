@@ -9,7 +9,7 @@
 **Links**
 - Live demo (no login): https://sharonbasovich.github.io/every-conjecture-is-false/
 - GitHub: https://github.com/sharonbasovich/every-conjecture-is-false
-- Video: (paste YouTube/Vimeo link of docs/video/demo.mp4)
+- Optional video: docs/video/walkthrough.mp4 can be uploaded to YouTube/Vimeo. The live demo already satisfies Hyperbloom's "live demo or video" requirement.
 
 ---
 
