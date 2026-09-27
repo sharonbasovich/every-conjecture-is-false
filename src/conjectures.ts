@@ -77,7 +77,7 @@ export const conjectures: Conjecture[] = [
     },
     hints: ["The cherry-picked evidence skipped the smallest odd prime.", "Try n = 3. Add up the digits of 111.", "111 = 3 × 37."],
     reveal:
-      "The claim only ever works one way: if the repunit is prime then n is prime, never the other way round. Digit-sum divisibility kills n = 3 right away. Prime repunits are rare. The only known ones have n = 2, 19, 23, 317 and 1031, plus a few enormous probable primes.",
+      "The claim only ever works one way: if the repunit is prime then n is prime, never the other way round. Digit-sum divisibility kills n = 3 right away. Prime repunits are rare: the first five have n = 2, 19, 23, 317 and 1031, and only a handful of larger ones are known, some only as probable primes.",
     counterexample: { n: "3", d: "3" },
   },
   {
@@ -117,7 +117,7 @@ export const conjectures: Conjecture[] = [
     },
     hints: ["Forty straight wins. What's special about the constant term?", "What happens when n is a multiple of 41, or one less than one?", "n = 40 gives 40² + 40 + 41 = 40·41 + 41 = 41²."],
     reveal:
-      "Euler noticed this polynomial in 1772. It works so well because 41 is one of Euler's 'lucky numbers', tied to the fact that ℚ(√−163) has class number 1 (163 = 4·41 − 1). But no non-constant polynomial produces only primes: plug in n = 41 and 41 divides the result.",
+      "Euler noticed this polynomial in 1772. It works so well because 41 is one of Euler's 'lucky numbers', tied to the fact that ℚ(√−163) has class number 1 (163 = 4·41 − 1). But no non-constant polynomial produces only primes. For this one, n = 41 gives 41 · 43.",
     counterexample: { n: "40" },
   },
   {
@@ -158,7 +158,7 @@ export const conjectures: Conjecture[] = [
       if (!isPrime(p)) return survive(`${p} isn't prime, so the claim says nothing about it.`);
       return factorVerdict(mersenne(p), d, `2^${p} − 1`);
     },
-    hints: ["The next prime after 7 still works. The one after that doesn't.", "Try p = 11. Any factor of 2^p − 1 has the form 2kp + 1.", "2047 = 23 × 89."],
+    hints: ["Try the very next prime after 7.", "Try p = 11. Any factor of 2^p − 1 has the form 2kp + 1.", "2047 = 23 × 89."],
     reveal:
       "The converse is true: if 2ⁿ − 1 is prime, n must be prime. Hudalricus Regius found 2¹¹ − 1 = 2047 = 23 × 89 in 1536. Mersenne primes are still the source of nearly every record-sized prime.",
     counterexample: { p: "11", d: "23" },
@@ -248,7 +248,7 @@ export const conjectures: Conjecture[] = [
     id: "euler-powers",
     tier: "Boss",
     title: "Euler's sum of powers",
-    claim: "A fifth power can't be written as a sum of fewer than five fifth powers.",
+    claim: "No fifth power is a sum of two, three or four positive fifth powers.",
     evidence: ["3³ + 4³ + 5³ = 6³ uses three cubes", "Euler (1769): kth powers need k terms", "k = 3 (no cube is a sum of two cubes) is Fermat's Last Theorem ✓"],
     fields: [
       { key: "a", label: "a", placeholder: "a" },
@@ -262,8 +262,8 @@ export const conjectures: Conjecture[] = [
       const lhs = a ** 5n + b ** 5n + c ** 5n + d ** 5n;
       const rhs = e ** 5n;
       return lhs === rhs
-        ? broken(`${a}⁵ + ${b}⁵ + ${c}⁵ + ${d}⁵ = ${fmt(rhs)} = ${e}⁵. Four fifth powers make a fifth power. Conjecture broken.`)
-        : survive(`${a}⁵ + ${b}⁵ + ${c}⁵ + ${d}⁵ = ${fmt(lhs)} ≠ ${e}⁵ = ${fmt(rhs)}. The claim survives.`);
+        ? broken(`${fmt(a)}⁵ + ${fmt(b)}⁵ + ${fmt(c)}⁵ + ${fmt(d)}⁵ = ${fmt(rhs)} = ${fmt(e)}⁵. Four fifth powers make a fifth power. Conjecture broken.`)
+        : survive(`${fmt(a)}⁵ + ${fmt(b)}⁵ + ${fmt(c)}⁵ + ${fmt(d)}⁵ = ${fmt(lhs)} ≠ ${fmt(e)}⁵ = ${fmt(rhs)}. The claim survives.`);
     },
     hints: ["It took until 1966 and a CDC 6600 computer to find it.", "The target e is 144.", "27⁵ + 84⁵ + 110⁵ + 133⁵ = 144⁵."],
     reveal:
@@ -296,7 +296,7 @@ export const conjectures: Conjecture[] = [
     title: "The 52-digit liar",
     claim: "For every positive integer <em>n</em>, gcd(<em>n</em>¹⁷ + 9, (<em>n</em> + 1)¹⁷ + 9) = 1.",
     evidence: ["n = 1 → gcd(10, 131081) = 1 ✓", "n = 2 → gcd = 1 ✓", "…true for every n up to 10⁵⁰."],
-    fields: [{ key: "n", label: "n (paste as many digits as you like)", placeholder: "a very large n" }],
+    fields: [{ key: "n", label: "n (up to 400 digits)", placeholder: "a very large n" }],
     check: ({ n }) => {
       if (n < 1n) return survive("Pick a positive integer.");
       const g = boss(n);
